@@ -96,6 +96,23 @@ app.patch('/todo/:id',(req,res) => {
     res.send(400)
   })
 })
+
+
+app.post('/users',(req,res) => {
+  var body=_.pick(req.body,['email','password']);
+  var user=new User(body);
+
+  user.save().then(() => {
+    //res.send(user);
+    return user.generateAuthToken();// here inside this then call what we are returning the token VALUE
+    //returned by generateAuthToken(). It's not a promise but we can still tack in a then callback to this block and the arg of the
+    //2nd tacked along then callback will be the value returned by the 1st then callback
+  }).then((token) => {
+    res.header('x-auth',token).send(user);
+  }).catch((e) => {
+    res.status(400).send(e);
+  })
+})
 app.listen(port,() => {
   console.log(`Server up on port ${port}`);
 });
