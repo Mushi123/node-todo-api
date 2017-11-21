@@ -7,7 +7,7 @@
 
 
 
-require('./config/config')
+require('./config/config');
 const {mongoose}=require('./db/mongoose');
 const _=require('lodash')
 const express=require('express');
