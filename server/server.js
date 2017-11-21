@@ -1,3 +1,13 @@
+//Need to use different environments for development production and testing
+//need to use NODE_ENV env var that exists only on heroku not on local machine
+//it has 3 different possible alues like production,development and test
+//need to configure NODE_ENV inside package.json for our dev and test envs
+//then we can configure our app depending on the env we are in. If we are in dev we use 1 db and another db when we are in test env
+
+
+
+
+require('./config/config.js')
 const {mongoose}=require('./db/mongoose');
 const _=require('lodash')
 const express=require('express');
@@ -7,7 +17,7 @@ const {Todo}=require('./models/todo');
 const {User}=require('./models/user');
 
 var app=express();
-const port=process.env.PORT||3000
+const port=process.env.PORT
 app.use(bodyParser.json());//with this we can now send json to our express app
 app.post('/todos',(req,res) =>{
   var todo=new Todo({
