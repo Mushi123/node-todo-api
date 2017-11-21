@@ -107,7 +107,7 @@ describe('DELETE /todo/:id',() => {
     request(app)
     .delete(`/todo/${hexId}`)
     .expect(200)
-    .expect((res) => {//doing some custom work so this syntax
+    .expect((res) => {//doing some custom work so this syntax. Custom expect
       expect(res.body.todo._id).toBe(hexId)
     })
     .end((err,res) => {//making db calls so need this syntax
