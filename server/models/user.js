@@ -32,7 +32,7 @@ var UserSchema=new mongoose.Schema({
     }
   }]
 });
-UserSchema.methods.toJSON=function(){
+UserSchema.methods.toJSON=function(){//toJSON is the function that determines how we wanna return the user doc and we can override this function
   var user=this;
   var userObj=user.toObject();
   return _.pick(userObj,['_id','email'])
@@ -52,5 +52,25 @@ UserSchema.methods.generateAuthToken=function(){
   }) block into the value of the token we are returning*/
 };//instance methods. Have access to individual docs. Need access to this keyword
 //sicne the this keyword references the individual doc so can't use arrow function here
+UserSchema.statics.findByToken=function(token){
+  var User=this;
+  var decoded;
+  try {
+    decoded=jwt.verify(token,'abc123');//decoded gives me object that was passed to jwt sign
+  } catch (e) {
+    // return new Promise((resolve,reject) => {
+    //   reject();
+    // })
+    return Promise.reject()
+  }
+
+  return User.findOne({
+    '_id':decoded._id,
+    'tokens.token':token, //querying a nested doc
+    'tokens.access':'auth'
+  })//Now this is returning a promise
+}
+
+
 var User=mongoose.model('User',UserSchema);
 module.exports={User}

@@ -8,6 +8,7 @@
 
 
 require('./config/config');
+const {authenticate}=require('./middleware/authenticate');
 const {mongoose}=require('./db/mongoose');
 const _=require('lodash')
 const express=require('express');
@@ -112,6 +113,10 @@ app.post('/users',(req,res) => {
   }).catch((e) => {
     res.status(400).send(e);
   })
+})
+
+app.get('/users/me',authenticate,(req,res) => {
+  res.send(req.user);
 })
 app.listen(port,() => {
   console.log(`Server up on port ${port}`);

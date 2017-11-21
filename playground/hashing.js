@@ -1,7 +1,8 @@
 const {SHA256}=require('crypto-js');
 const jwt=require('jsonwebtoken')
 var data={
-  id:10
+  id:10,
+  access:'auth'
 };
 var token=jwt.sign(data,'123abc');//returns crytographic string
 console.log(token);
