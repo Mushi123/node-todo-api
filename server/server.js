@@ -6,6 +6,7 @@ var {Todo}=require('./models/todo');
 var {User}=require('./models/user');
 
 var app=express();
+const port=process.env.PORT||3000
 app.use(bodyParser.json());//with this we can now send json to our express app
 app.post('/todos',(req,res) =>{
   var todo=new Todo({
@@ -48,8 +49,8 @@ app.get('/todos/:id',(req,res) => {
  })
 
 
-app.listen(3000,() => {
-  console.log("Server up");
+app.listen(port,() => {
+  console.log(`Server up on port ${port}`);
 });
 
 module.exports={app}
