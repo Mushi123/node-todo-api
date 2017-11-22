@@ -53,6 +53,17 @@ UserSchema.methods.generateAuthToken=function(){
   }) block into the value of the token we are returning*/
 };//instance methods. Have access to individual docs. Need access to this keyword
 //sicne the this keyword references the individual doc so can't use arrow function here
+
+UserSchema.methods.removeToken=function(token){
+  var user=this;
+  return user.update({
+    $pull:{
+      tokens:{
+        token:token
+      }
+    }
+  })
+}
 UserSchema.statics.findByToken=function(token){
   var User=this;
   var decoded;

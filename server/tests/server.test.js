@@ -220,7 +220,7 @@ describe('POST /users',() => {
     })
   })
 
-  it('should return val erros if req invalid',(done) => {
+  it('should return validation erros if request is invalid',(done) => {
     request(app)
       .post('/users')
       .send({email:'and',password:'123'})
