@@ -15,17 +15,23 @@ const users=[{
 },{
   _id:userTwoId,
   email:'jen@eg.com',
-  password:'userTwoPass'
+  password:'userTwoPass',
+  tokens:[{
+    access:'auth',
+    token: jwt.sign({_id:userTwoId,access:'auth'},'abc123').toString()
+  }]
 
 }]
 const todos=[{
   _id:new ObjectID(),
-  text:"First test todo"
+  text:"First test todo",
+  _creator:userOneId
 },{
   _id:new ObjectID(),
   text:"Second test todo",
   completed:true,
-  completedAt:333
+  completedAt:333,
+  _creator:userTwoId
 }]
 const populateTodos=(done) => {
   Todo.remove({}).then(() => {
@@ -37,8 +43,8 @@ const populateUsers=(done) => {
     var userOne=new User(users[0]).save();
     var userTwo=new User(users[1]).save();
 
-    return Promise.all([userOne,userTwo]);
-  }).then(() => done())
+    Promise.all([userOne,userTwo]).then(() => done());
+  })//moved then call from here and deleted return statement above. Was having timeout issues
 }
 
 module.exports={todos,populateTodos,users,populateUsers}
